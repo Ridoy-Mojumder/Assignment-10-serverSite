@@ -26,6 +26,7 @@ async function run() {
     await client.connect();
 
     const artAndCraftCollection = client.db('artAndCraftDb').collection('artAndCraft');
+    const artAndCraftCategoryCollection = client.db('artAndCraftDb').collection('artAndCraftCategory');
 
     app.get('/addCraft', async (req, res) => {
       const artAndCraft = artAndCraftCollection.find();
@@ -33,14 +34,28 @@ async function run() {
       res.send(result)
     })
 
+
+    app.get('/artAndCraftCategory', async (req, res) => {
+      try {
+        const artAndCraftCategoryData = await artAndCraftCategoryCollection.find().toArray();
+        res.send(artAndCraftCategoryData);
+      } catch (error) {
+        console.error('Error fetching artAndCraftCategory data:', error);
+        res.status(500).send('Internal Server Error');
+      }
+    });
+
     
 
 
-    app.get('/addCraft/:id', async (req, res) => {
+    app.get('/artAndCraftCategory/:id', async (req, res) => {
       const id = req.params.id;
-      const result = await artAndCraftCollection.findOne({ _id: new ObjectId(id) })
+      const result = await artAndCraftCategoryCollection.findOne({ _id: new ObjectId(id) })
       res.send(result)
     })
+
+
+
     app.get('/addCraft/:id', async (req, res) => {
       const id = req.params.id;
       const result = await artAndCraftCollection.findOne({ _id: new ObjectId(id) })
