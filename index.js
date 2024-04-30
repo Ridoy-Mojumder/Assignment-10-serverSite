@@ -68,7 +68,12 @@ async function run() {
       res.send(result)
     })
 
-    
+    app.post('/addCraft', async (req, res) => {
+      const newArtAndCraft = req.body;
+      console.log(newArtAndCraft);
+      const result = await artAndCraftCollection.insertOne(newArtAndCraft);
+      res.send(result);
+    })
 
     app.put('/addCraft/:id', async(req,res)=>{
       const id = req.params.id;
